@@ -1,4 +1,4 @@
-tuper
+Dentoo tuper repo
 =====
 
 Janhouse Tuper Functions
