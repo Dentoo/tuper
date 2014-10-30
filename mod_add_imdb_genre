@@ -1,0 +1,27 @@
+    ##########################
+    # Match IMDB URL
+    my $match_imdb=qr/imdb.com\/title\/tt([0-9]*)/ms; 
+        my $imdb=""; 
+        if($descr_txt =~ $match_imdb){
+        $imdb="http://www.imdb.com/title/tt".$1."/"; 
+        $r->err("    Found IMDB link: ".$imdb, yellow); 
+        }
+    $r->form_add('url', $imdb);
+
+    ##########################
+    # Search for genre on imdb
+    # By Dent @ www.dentoo.net
+    my $genre="";    
+    if ($imdb =~ m/imdb/i) {
+    $r->err("    Found IMDB link for this torrent, will try to fetch genre...", yellow);
+    my $eh=$r->get($imdb);
+    return 0 if($eh==0);
+    }
+    my $match_genre=qr/<span class="itemprop" itemprop="genre">(.*?)<\/span>/ms;
+    my $genre_matches=$r->match('genre', $match_genre);
+    my $genre=@$genre_matches[0];
+    if($genre_matches==0){ $r->err('    No IMDB genre for this torrent', red);}    
+    $r->err("    Genre: ".$genre, white);
+    ##########################
+
+    $r->form_add('description', $genre);
