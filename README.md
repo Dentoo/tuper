@@ -1,0 +1,4 @@
+tuper
+=====
+
+Janhouse Tuper Functions
