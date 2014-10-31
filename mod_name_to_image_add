@@ -1,0 +1,54 @@
+	#################################
+	# Select TV Show image from name
+	# Dent www.dentoo.net 2014
+	my $upl_img="/home/tup/tuper4/tvimages/blank.png";
+	# Select image from name
+	if($name =~ m/blacklist/i){
+	$upl_img="/home/tup/tuper4/tvimages/Blacklist.jpg";
+	}elsif($name =~ m/blue.bloods/i){
+	$upl_img="/home/tup/tuper4/tvimages/blue.bloods.jpg";
+	}elsif($name =~ m/Brooklyn.Nine-Nine/i){
+	$upl_img="/home/tup/tuper4/tvimages/brooklyn.nine.nine.jpg";
+	}elsif($name =~ m/Castle.*S(06|07|08|09)/i){
+	$upl_img="/home/tup/tuper4/tvimages/castle.jpg";
+	}elsif($name =~ m/chicago.pd/i){
+	$upl_img="/home/tup/tuper4/tvimages/chicago.pd.jpg";
+	}elsif($name =~ m/criminal.minds/i){
+	$upl_img="/home/tup/tuper4/tvimages/criminal.minds.jpg";
+	}elsif($name =~ m/CSI.*S(15|16|17|18)/i){
+	$upl_img="/home/tup/tuper4/tvimages/CSI.season.15.jpg";
+	}elsif($name =~ m/gadget.show/i){
+	$upl_img="/home/tup/tuper4/tvimages/gadget.show.jpg";
+	}elsif($name =~ m/gotham.*s(01|02|03|04)/i){
+	$upl_img="/home/tup/tuper4/tvimages/gotham.jpg";
+	}elsif($name =~ m/Hawaii.Five-0/i){
+	$upl_img="/home/tup/tuper4/tvimages/hawaii.five-o.jpg";
+	}elsif($name =~ m/hells.kitchen/i){
+	$upl_img="/home/tup/tuper4/tvimages/hells.kitchen.jpg";
+	}elsif($name =~ m/HomeLand.*s(03|04|05|06)/i){
+	$upl_img="/home/tup/tuper4/tvimages/HomeLand.jpg";
+	}elsif($name =~ m/NCIS.*S(11|12|13|14)/i){
+	$upl_img="/home/tup/tuper4/tvimages/NCIS.Season.11.jpeg";
+	}elsif($name =~ m/once.upon.a.time.*s(04|05)/i){
+	$upl_img="/home/tup/tuper4/tvimages/once.upon.a.time.jpg";
+	}elsif($name =~ m/plebs.*s(02|03|04|05)/i){
+	$upl_img="/home/tup/tuper4/tvimages/plebs.jpg";
+	}elsif($name =~ m/saving.hope/i){
+	$upl_img="/home/tup/tuper4/tvimages/saving.hope.jpg";
+	}elsif($name =~ m/scorpion.*s(01|02|03|04)/i){
+	$upl_img="/home/tup/tuper4/tvimages/scorpion.jpg";
+	}elsif($name =~ m/sleepy.hollow.*s(02|03|04|05)/i){
+	$upl_img="/home/tup/tuper4/tvimages/sleepy.hollow.jpg";
+	}elsif($name =~ m/stalker.*s(01|02|03|04)/i){
+	$upl_img="/home/tup/tuper4/tvimages/stalker.jpg";
+	}elsif($name =~ m/the.originals.*s(02|03|04|05)/i){
+	$upl_img="/home/tup/tuper4/tvimages/the.originals.jpg";
+	}elsif($name =~ m/the.simpsons/i){
+	$upl_img="/home/tup/tuper4/tvimages/the.simpsons.jpg";
+	}elsif($name =~ m/wwe/i){
+	$upl_img="/home/tup/tuper4/tvimages/wwe.jpg";
+	}elsif($name =~ m/./i){
+	$upl_img="/home/tup/tuper4/tvimages/blank.png";
+	} 
+	# Image passed to upload script
+	#return 0 if(not $r->form_add_file('pic1', $upl_img, "image/jpeg"));
