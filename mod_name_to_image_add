@@ -1,6 +1,10 @@
-	#################################
+	##################################################################
 	# Select TV Show image from name
 	# Dent www.dentoo.net 2014
+	# Change the TV show regex to your desired shows 
+	# and set the IMAGE_LINK to the corresponding poster URL or location	
+	# "IMAGE_LINK" can be image URL or a file stored locally like /home/tup/tuper4/cache/posters/the.simpsons.jpg
+
 	my $upl_img="IMAGE_LINK";
 	# Select image from name
 	if($name =~ m/blacklist/i){
@@ -50,5 +54,13 @@
 	}elsif($name =~ m/./i){
 	$upl_img="IMAGE_LINK";		# If no match until now, match anything, set it to default image or blank.
 	} 
-	# Image passed to upload script
+	$r->err("Poster image URL:".$upl_img, yellow);
+	
+	# If image URL is required
+	$r->form_add('poster', $upl_img);
+	
+	# If image file stored locally has to be passed as a file to upload script
 	#return 0 if(not $r->form_add_file('pic1', $upl_img, "image/jpeg"));
+	
+	#
+	##################################################################
