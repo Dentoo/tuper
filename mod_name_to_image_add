@@ -51,8 +51,8 @@
 	$upl_img="IMAGE_LINK";
 	}elsif($name =~ m/wwe/i){
 	$upl_img="IMAGE_LINK";
-	}elsif($name =~ m/./i){
-	$upl_img="IMAGE_LINK";		# If no match until now, match anything, set it to default image or blank.
+	}elsif($name =~ m/./i){		# If no match until now, match anything. 
+	$upl_img="IMAGE_LINK";		# Set it to a default poster image or leave blank.
 	} 
 	$r->err("Poster image URL:".$upl_img, yellow);
 	
