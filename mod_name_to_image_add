@@ -48,7 +48,7 @@
 	}elsif($name =~ m/wwe/i){
 	$upl_img="IMAGE_LINK";
 	}elsif($name =~ m/./i){
-	$upl_img="IMAGE_LINK";
+	$upl_img="IMAGE_LINK";		# If no match until now, match anything, set it to default image or blank.
 	} 
 	# Image passed to upload script
 	#return 0 if(not $r->form_add_file('pic1', $upl_img, "image/jpeg"));
