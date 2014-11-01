@@ -3,7 +3,7 @@
 	# Dent www.dentoo.net 2014
 	# Change the m/.*/i regex to your desired tv shows keywords.
 	# and set the IMAGE_LINK to the corresponding poster URL or location.	
-	# "IMAGE_LINK" can be image URL or a file stored locally like /home/tup/tuper4/cache/posters/the.simpsons.jpg
+	# "IMAGE_LINK" can be the image URL, or a file stored locally like /home/tup/tuper4/cache/posters/the.simpsons.jpg
 
 	my $upl_img="";
 	# Select image from name.
