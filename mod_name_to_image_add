@@ -28,7 +28,7 @@
 	}elsif($name =~ m/HomeLand.*s(03|04|05|06)/i){
 	$upl_img="IMAGE_LINK";
 	}elsif($name =~ m/NCIS.*S(11|12|13|14)/i){
-	$upl_img="/home/tup/tuper4/tvimages/NCIS.Season.11.jpeg";
+	$upl_img="IMAGE_LINK";
 	}elsif($name =~ m/once.upon.a.time.*s(04|05)/i){
 	$upl_img="IMAGE_LINK";
 	}elsif($name =~ m/plebs.*s(02|03|04|05)/i){
