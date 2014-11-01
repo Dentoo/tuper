@@ -36,7 +36,7 @@
 	
 	###################################
 	# Upload poster by url
-	my $eh=$r->get("http://image.geotorrents.com/index.php?url=1");
+	my $eh=$r->get("http://image.geotorrents.com/index.php?url=1"); #This part needs to be changed to non url upload
 	return 0 if($eh==0);
 	$r->form_new;
 	# Form fields passed to upload script
