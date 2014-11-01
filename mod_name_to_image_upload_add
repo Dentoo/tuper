@@ -1,0 +1,66 @@
+	##################################################################
+	# Select TV Show image from name, upload image and add it to description
+	# Dent www.dentoo.net 2014
+	# Change the m/.*/i regex to your desired tv shows keywords.
+	# and set the IMAGE_LINK to the corresponding poster location.	
+	# "IMAGE_LINK" should be a file stored locally like /home/tup/tuper4/cache/posters/the.simpsons.jpg
+	
+	if ($category==123 || category==124) # Set this to your desired categories.
+	{
+	my $upl_img="";
+	# Select image from name.
+	if($name =~ m/blacklist/i){
+	$upl_img="IMAGE_LINK";
+	}elsif($name =~ m/gotham.*s(01|02|03|04)/i){
+	$upl_img="IMAGE_LINK";
+	}elsif($name =~ m/NCIS.*S(11|12|13|14)/i){
+	$upl_img="IMAGE_LINK";
+	}elsif($name =~ m/once.upon.a.time.*s(04|05)/i){
+	$upl_img="IMAGE_LINK";
+	}elsif($name =~ m/plebs.*s(02|03|04|05)/i){
+	$upl_img="IMAGE_LINK";
+	}elsif($name =~ m/scorpion.*s(01|02|03|04)/i){
+	$upl_img="IMAGE_LINK";
+	}elsif($name =~ m/sleepy.hollow.*s(02|03|04|05)/i){
+	$upl_img="IMAGE_LINK";
+	}elsif($name =~ m/stalker.*s(01|02|03|04)/i){
+	$upl_img="IMAGE_LINK";
+	}elsif($name =~ m/the.originals.*s(02|03|04|05)/i){
+	$upl_img="IMAGE_LINK";
+	}elsif($name =~ m/the.simpsons/i){
+	$upl_img="IMAGE_LINK";
+	}elsif($name =~ m/./i){		# If no match until now, match anything. 
+	$upl_img="/home/tup/tuper4/cache/posters/no.poster.jpg";		# Set it to a default poster image.
+	} 
+	$r->err("Poster image URL:".$upl_img, yellow);
+	
+	###################################
+	# Upload poster by url
+	my $eh=$r->get("http://image.geotorrents.com/index.php?url=1");
+	return 0 if($eh==0);
+	$r->form_new;
+	# Form fields passed to upload script
+	$r->form_add('userfile[]', $upl_img);
+	$r->form_add('url_upload_type', 'normal_upload');
+	$r->form_add('private_upload', '0');
+	$r->form_add('upload_type', 'url-standard');
+	# POSTing data to upload script
+	$eh=$r->post("http://image.geotorrents.com/upload.php");
+	return 0 if($eh==0);
+	
+	###################################
+	# Search for uploaded poster bbcode url
+	my $match_bbcode=qr/value="\[URL=http:\/\/image.geotorrents.com\/\](.*?)\[\/URL\]/ms;
+	my $bbcode_matches=$r->match('bbcode', $match_bbcode);
+	if($bbcode_matches==0){ $r->err(' Can not continue without bbcode, aborting!'); return 0;}
+	my $bbcode=@$bbcode_matches[0];
+	$r->err(" Bbcode:".$bbcode);
+	
+	###################################
+	# Add poster bbcode to description
+	$bbcode.="\n";
+	$descr_txt=$bbcode.$descr_txt;
+	$r->err("Description with poster: \n $descr_txt");
+	}	
+	#
+	##################################################################
