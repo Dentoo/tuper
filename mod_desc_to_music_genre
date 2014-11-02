@@ -2350,3 +2350,5 @@ $genre="Zulu music";
 }elseif($desc_txt =~ m/Creole/i){
 $genre="Creole";
 }
+$r->err("Music genre from description:".$genre, yellow);
+$r->form_add('genre', $genre);
