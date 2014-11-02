@@ -1,0 +1,8 @@
+    ###################################
+    ##Check if torrent name exists on whatever-torrents rss page
+    $r->err('Searching for '.$name.' on whatever-torrents', "green");
+    my $eh=$r->get("http://whatever-torrents/rss.php");
+    my $match_namematch=qr/<title>$name<\/title>/ms;
+    my $uploaded_matches=$r->match('torrentfound', $match_namematch);
+    if($uploaded_matches!=0){$r->err('Search found a torrent, its probably already uploaded, aborting!', "red on_white"); return 0;}
+    else { $r->err('No torrents were found based on your search criteria, proceeding!', "green"); }
