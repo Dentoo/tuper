@@ -1,4 +1,4 @@
-##########################################################
+usic##########################################################
 # Look for genre in description and if matched set genre value to the genre.
 # Dent @ www.dentoo.net
 #
@@ -1483,10 +1483,10 @@ $genre="Nu skool breaks";
 $genre="Obscuro";
 }elseif($desc_txt =~ m/punk rock/i){
 $genre="punk rock";
-}elseif($desc_txt =~ m/hip hop music/i){
-$genre="hip hop music";
-}elseif($desc_txt =~ m/country music/i){
-$genre="country music";
+}elseif($desc_txt =~ m/hip hop/i){
+$genre="hip hop";
+}elseif($desc_txt =~ m/country/i){
+$genre="country";
 }elseif($desc_txt =~ m/Oldies/i){
 $genre="Oldies";
 }elseif($desc_txt =~ m/Yakut/i){
