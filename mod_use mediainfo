@@ -1,0 +1,40 @@
+   sub cexec{ # Executes command and returns output. :)
+   my @cmd=@_;
+   my $cmd_out="";
+   open(EXEC, '-|', 
+   @cmd) 
+   or die "Can't exec: $!\n";
+   # Now read the output just like a file
+   while(my $line = <EXEC>) {
+   chomp $line;
+   $cmd_out.="$line\n";
+   }
+   close(EXEC);
+   return $cmd_out;
+   }
+
+	##############
+	## Use mediainfo
+	my $techinfo="";
+	$r->err("Looking for videos");
+	my @vfiles=$r->list_files($directory_path, "video");
+
+	if(scalar(@vfiles) > 0){
+	    $r->err("Video files in ".$directory_path,);
+        my $g=-1;
+	    foreach my $entry (@vfiles){
+	        $g++;
+		$r->err(">>".$vfiles[$g]);
+		
+		    if($vfiles[$g] =~ /(^|\/)sample\//i || $vfiles[$g] =~ /sample/i){
+			    $r->err("-> Found sample, won't make mediainfo for it.");
+			    next;
+		    }
+			$r->err("Making techinfo for ".$vfiles[$g]);
+		    $techinfo=$techinfo."\n".cexec("mediainfo", "-output:video", $vfiles[$g]);
+	    }
+	}
+	my $search_string = quotemeta $directory_path;
+	$techinfo=~s/$search_string//g;
+
+	$r->err("Full techinfo: \n".$techinfo);
