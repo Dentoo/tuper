@@ -1,0 +1,21 @@
+if($imdb =~ m/imdb/i && $name =~ m/(2013|2014|2015|2016)/i){
+$ytname=$name;
+$ytname =~ s/( |\.)2014.*$//gi;
+$ytname =~ s/\./+/gi;
+$ytname =~ s/ /+/gi;
+$r->err('Searching for '.$ytname.' on youtube movieclips TRAILERS channel', "green");
+my $eh=$r->get("https://www.youtube.com/user/movieclipsTRAILERS/search?query=".$ytname);
+return 0 if($eh==0);
+my $match_trailerid=qr/data-context-item-id="(.*?)"/ms;
+my $trailerid_matches=$r->match('trailer id', $match_trailerid);
+if($trailerid_matches==0){ $r->err(' Cant find trailer on youtube, aborting!'); return 0;}
+my $trailerid=@$trailerid_matches[0];
+$r->err(' Trailerid: '.$trailerid, white);
+my $yturl=$trailerid;
+$yturl =~ s/^/https:\/\/www.youtube.com\/watch\?v=/gi;
+$r->err(' Image url:'.$yturl, yellow);
+$r->err('Planned stop (just testing)', "green");
+return 0;
+}
+$r->err('Planned stop 2(just testing)', "red");
+return 0;
