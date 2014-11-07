@@ -1,6 +1,6 @@
 if($imdb =~ m/imdb/i && $name =~ m/(2013|2014|2015|2016)/i){
 $ytname=$name;
-$ytname =~ s/( |\.)2014.*$//gi;
+$ytname =~ s/( |\.)(2013|2014|2015|2016).*$//gi;
 $ytname =~ s/\./+/gi;
 $ytname =~ s/ /+/gi;
 $r->err('Searching for '.$ytname.' on youtube movieclips TRAILERS channel', "green");
