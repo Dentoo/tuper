@@ -1,0 +1,42 @@
+	###################################
+	# Place this directly under the
+	# Generating TV episode info from TVRAGE block
+	if (defined $showname and $showname ne "") {
+	###################################
+	# Get TVRAGE poster Local Rev. 1
+	# By Dent @ www.dentoo.net 2014
+	# Fix name
+	my $showlink=$showname;
+	###################################
+	# Get TVShow URL from tv rage
+	my $eh=$r->get("http://services.tvrage.com/feeds/search.php?show=".$showlink);
+	return 0 if($eh==0);
+	my $match_tvrlink=qr/<link>(.*?)<\/link>/ms;
+	my $tvrlink_matches=$r->match('tvr link', $match_tvrlink);
+	if($tvrlink_matches==0){ $r->err(' Cant find the tvshow link on tvrage, skipping!');}
+	my $tvrlink=@$tvrlink_matches[0];
+	$r->err(' TVRage TVShow Link:'.$tvrlink, white);
+	###################################
+	# Get poster URL from tv rage
+	my $eh=$r->get($tvrlink);
+	return 0 if($eh==0);
+	my $match_posterid=qr/src='http:\/\/images.tvrage.com\/shows\/(.*?)'><\/div>/ms;
+	my $posterid_matches=$r->match('image id', $match_posterid);
+	if($posterid_matches==0){ $r->err(' Cant find image on tvrage, skipping!');}
+	my $posterid=@$posterid_matches[0];
+	$r->err(' Posterid:'.$posterid, white);
+	if($posterid =~ m/layout/gi){$r->err(' Cant find tv show on tvrage, is the link correct? Aborting!'); return 0;}
+	$posterid =~ s/^/http:\/\/images.tvrage.com\/shows\//g;
+	my $imgurl=$posterid;
+	$r->err(' Image url:'.$imgurl, white);		
+	
+	system "wget -P /home/tup/tuper4/cache/posters $imgurl";
+	
+	my $local_poster=$imgurl;
+	$local_poster =~ s/^http:\/\/images.tvrage.com\/shows\/.*\///g;
+	$local_poster =~ s/^/\/home\/tup\/tuper4\/cache\/posters\//g;
+	$r->err(' Local poster link:'.$local_poster, white);
+	
+	}
+	
+	# $local_poster can now be used to upload poster on upload
