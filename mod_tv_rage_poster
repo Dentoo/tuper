@@ -1,58 +1,62 @@
-        ###################################
-        # Place this directly under the
-        # Generating TV episode info from TVRAGE block
+	###################################
+	# Place this directly under the
+	# Generating TV episode info from TVRAGE block
+	if (defined $showname and $showname ne "") {
+	###################################
+	# Get TVRAGE poster Rev. 8
+	# By Dent @ www.dentoo.net 2014
+	# Fix name
+	my $showlink=$showname;
+	
+	###################################	
+	# Get TVShow URL from tv rage
+	my $eh=$r->get("http://services.tvrage.com/feeds/search.php?show=".$showlink);
+	return 0 if($eh==0);
+	my $match_tvrlink=qr/<link>(.*?)<\/link>/ms;
+	my $tvrlink_matches=$r->match('tvr link', $match_tvrlink);
+	if($tvrlink_matches==0){ $r->err(' Cant find the tvshow link on tvrage, skipping!');}
+	my $tvrlink=@$tvrlink_matches[0];
+	$r->err(' TVRage TVShow Link:'.$tvrlink, white);
+	
+	###################################
+	# Get poster URL from tv rage
+	my $eh=$r->get($tvrlink);
+	return 0 if($eh==0);
+	my $match_posterid=qr/src='http:\/\/images.tvrage.com\/shows\/(.*?)'><\/div>/ms;
+	my $posterid_matches=$r->match('image id', $match_posterid);
+	if($posterid_matches==0){ $r->err(' Cant find image on tvrage, skipping!');}
+	my $posterid=@$posterid_matches[0];
+	$r->err(' Posterid:'.$posterid, white);
+	if($posterid =~ m/layout/gi){$r->err(' Cant find tv show on tvrage, is the link correct? Aborting!'); return 0;}
+	$posterid =~ s/^/http:\/\/images.tvrage.com\/shows\//g;
+	my $imgurl=$posterid;
+	$r->err(' Image url:'.$imgurl, white);
 
-        if (defined $showname and $showname ne "") {
-        ###################################
-        # Get TVRAGE poster Rev. 7
-        # By Dent @ www.dentoo.net 2014
-
-        # Fix name
-        my $showlink=$showname;
-        $showlink =~ s/Marvel's_//g;
-        $showlink =~ s/ /_/g;
-        $showlink =~ s/'//g;
-        $showlink =~ s/-//g;
-
-        # Get poster URL from tv rage
-        my $eh=$r->get("http://www.tvrage.com/search.php?search=".$showlink);
-            return 0 if($eh==0);    
-            my $match_posterid=qr/<dd class="img"> <a href="\/.*?"><img src='(.*?)' width='75'\/><\/a>/ms;
-            my $posterid_matches=$r->match('image id', $match_posterid);
-            if($posterid_matches==0){ $r->err('    Cant find image on tvrage, skipping!');}
-            my $posterid=@$posterid_matches[0];
-            $r->err('    Posterid:'.$posterid, white);
-            if($posterid =~ m/layout/gi){$r->err('    Cant find tv show on tvrage, is the link correct? Aborting!'); return 0;}
-            $posterid =~ s/thumb125-//g;
-            my $imgurl=$posterid;
-            $r->err('    Image url:'.$imgurl, white); 
-
-        ###################################
-        # Upload tvrage poster by url
-        my $eh=$r->get("http://image.geotorrents.com/index.php?url=1");
-        return 0 if($eh==0);
-        $r->form_new;
-        # Form fields passed to upload script
-        $r->form_add('userfile[]', $imgurl);
-        $r->form_add('url_upload_type', 'normal_upload');
-        $r->form_add('private_upload', '0');
-        $r->form_add('upload_type', 'url-standard');
-
-        # POSTing data to upload script
-        $eh=$r->post("http://image.geotorrents.com/upload.php");
-        return 0 if($eh==0);    
-
-        ###################################
-        # Search for uploaded tvrage poster bbcode url
-        my $match_bbcode=qr/value="\[URL=http:\/\/image.geotorrents.com\/\](.*?)\[\/URL\]/ms;
-        my $bbcode_matches=$r->match('bbcode', $match_bbcode);
-        if($bbcode_matches==0){ $r->err('    Cant find bbcode, skipping!');}
-        my $bbcode=@$bbcode_matches[0];
-        $r->err("    Bbcode: $bbcode");
-
-        ###################################
-        # Add tvrage poster bbcode to description
-        $bbcode.="\n";
-        $descr_txt=$bbcode.$descr_txt;  
-        $r->err("Description with TVRAGE poster: \n $descr_txt");
-    }
+	###################################
+	# Upload tvrage poster by url
+	my $eh=$r->get("http://image.geotorrents.com/index.php?url=1");
+	return 0 if($eh==0);
+	$r->form_new;
+	# Form fields passed to upload script
+	$r->form_add('userfile[]', $imgurl);
+	$r->form_add('url_upload_type', 'normal_upload');
+	$r->form_add('private_upload', '0');
+	$r->form_add('upload_type', 'url-standard');
+	# POSTing data to upload script
+	$eh=$r->post("http://image.geotorrents.com/upload.php");
+	return 0 if($eh==0);
+	
+	###################################
+	# Search for uploaded tvrage poster bbcode url
+	my $match_bbcode=qr/value="\[URL=http:\/\/image.geotorrents.com\/\](.*?)\[\/URL\]/ms;
+	my $bbcode_matches=$r->match('bbcode', $match_bbcode);
+	if($bbcode_matches==0){ $r->err(' Cant find bbcode, skipping!');}
+	my $bbcode=@$bbcode_matches[0];
+	$r->err(" Bbcode: $bbcode");
+	
+	###################################
+	# Add tvrage poster bbcode to description
+	$bbcode.="\n";
+	$descr_txt=$bbcode.$descr_txt;
+	$r->err("Description with TVRAGE poster: \n $descr_txt");
+	}
