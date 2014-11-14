@@ -1,6 +1,6 @@
 ###################################
-# Add poster from IMDB on torrents with IMDB link
-# By Dent @ www.dentoo.net Rev 2
+# Add poster from IMDB on torrents with IMDB link (local)
+# By Dent @ www.dentoo.net Rev 3
 # Match IMDB URL
 my $match_imdb=qr/imdb.com\/title\/tt([0-9]*)/ms;
 my $imdb="";
