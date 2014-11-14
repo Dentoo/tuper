@@ -1,0 +1,45 @@
+###################################
+# Add poster from IMDB on torrents with IMDB link
+# By Dent @ www.dentoo.net Rev 2
+# Match IMDB URL
+my $match_imdb=qr/imdb.com\/title\/tt([0-9]*)/ms;
+my $imdb="";
+if($descr_txt =~ $match_imdb){
+$imdb="http://www.imdb.com/title/tt".$1."/";
+$r->err("Found IMDB link: ".$imdb, yellow);
+}
+my $upload_image;
+$upl_img="/home/tup/tuper4/cache/posters/default/noposter.jpg";
+my $imgurl; 
+my $posterid;
+if($imdb =~ m/imdb/i){
+#$descr_txt =~ s/\[img\].*?\[\/img\]//gi; ## To remove all other images from description except imdb poster remove the # in front of this line
+###################################
+# Get imdb poster url
+
+my $eh=$r->get($imdb);
+return 0 if($eh==0);
+my $match_posterid=qr/src="http:\/\/ia.media-imdb.com\/images\/M\/(.*?)\..*.jpg"$/ms;
+my $posterid_matches=$r->match('image id', $match_posterid);
+my $posterid=@$posterid_matches[0];
+if($posterid_matches==0){ $r->err(' Cant find image on imdb, adding default!');}
+$r->err(' Posterid:'.$posterid, white);
+my $imgurl="http://ia.media-imdb.com/images/M/".$posterid."._V1_SX640_SY720_.jpg";
+if($posterid==""){$imgurl =~ s/http:\/\/ia.media-imdb.com\/images\/M\/\._V1_SX640_SY720_\.jpg/http:\/\/image.geotorrents.com\/images\/59390060518047172072.jpg/g; }
+$r->err(' Image url:'.$imgurl, white);
+###################################
+
+	system "wget -P /home/tup/tuper4/cache/posters $imgurl";
+	sleep(4);
+	$upl_img=$imgurl;
+	$upl_img =~ s/^http:\/\/ia.media-imdb.com\/images\/M\///g;
+	$upl_img =~ s/^http:\/\/image.geotorrents.com\/images\///g;
+	$upl_img =~ s/^/\/home\/tup\/tuper4\/cache\/posters\//g;
+	$r->err('Poster downloaded temporarily to:'.$upl_img, green);
+}	
+
+
+if($category == 6){
+$upl_img="/home/tup/tuper4/cache/posters/default/music.jpg";
+}
+$r->err('Poster location:'.$upl_img, yellow);
