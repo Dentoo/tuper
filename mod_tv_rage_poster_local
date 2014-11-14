@@ -27,7 +27,7 @@
 	$r->err('Image url:'.$imgurl, white);
 	$r->err('Downloading poster from TVRage', white);
 	
-	system "wget -P /home/tup/tuper4/cache/posters $imgurl";
+	system "wget -P '/home/tup/tuper4/cache/posters' $imgurl";
 	sleep(4);
 	my $upl_img=$imgurl;
 	$upl_img =~ s/^http:\/\/images.tvrage.com\/shows\/.*\///g;
