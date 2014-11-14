@@ -1,3 +1,4 @@
+my $yturl="";
 if($imdb =~ m/imdb/i && $name =~ m/(2013|2014|2015|2016)/i){
 $ytname=$name;
 $ytname =~ s/( |\.)(2013|2014|2015|2016).*$//gi;
@@ -13,9 +14,13 @@ my $trailerid=@$trailerid_matches[0];
 $r->err(' Trailerid: '.$trailerid, white);
 my $yturl=$trailerid;
 $yturl =~ s/^/https:\/\/www.youtube.com\/watch\?v=/gi;
-$r->err(' Image url:'.$yturl, yellow);
-$r->err('Planned stop (just testing)', "green");
-return 0;
+$r->err(' Youtube url:'.$yturl, yellow);
+$r->err('Planned stop (just testing)', "green"); # remove this line
+return 0;                                        # remove this line
 }
-$r->err('Planned stop 2(just testing)', "red");
-return 0;
+$r->err('Planned stop 2(just testing)', "red");  # remove this line
+return 0;                                        # remove this line
+
+
+# And for the upload form POST add the
+$r->form_add('trailer, '$yturl');
