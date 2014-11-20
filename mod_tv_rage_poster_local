@@ -44,3 +44,11 @@
 	$upl_img =~ s/^http:\/\/images.tvrage.com\/shows\/.*\///g;
 	$upl_img =~ s/^/\/home\/tup\/tuper4\/cache\/posters\//g;
 	}
+
+
+### Upload torrent
+
+	unless ($upl_img =~ m/default/i){
+	$r->err("Deleting poster ".$upl_img, red);
+	system "rm -f $upl_img";
+	}
