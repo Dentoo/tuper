@@ -1,35 +1,46 @@
+	################# Generating TV episode info from TVRAGE #######################
+	my $relname=$r->name_scene($name);
+ 
+	my ($cutname, $showname, $episode, $info, $epform);
+	$cutname=$r->tvshow_name($relname);
+	$showname=$r->tvshow_fullname($cutname) if $cutname;
+	#$episode=$r->tvshow_episode($relname);
+	$showname=$cutname if $cutname and not $showname;
+
 	###################################
-	# Get TVRAGE poster Local Rev. 1.1
+	# Get TVRAGE poster Local Rev. 1.2
 	# By Dent @ www.dentoo.net 2014
-	# Fix name
+	#
+	$r->err('Going to fetch the TVRage poster...', white);
 	my $showlink=$showname;
+	
 	###################################
 	# Get TVShow URL from tv rage
 	my $eh=$r->get("http://services.tvrage.com/feeds/search.php?show=".$showlink);
 	return 0 if($eh==0);
 	my $match_tvrlink=qr/<link>(.*?)<\/link>/ms;
 	my $tvrlink_matches=$r->match('tvr link', $match_tvrlink);
-	if($tvrlink_matches==0){ $r->err(' Cant find the tvshow link on tvrage, skipping!');}
 	my $tvrlink=@$tvrlink_matches[0];
-	$r->err(' TVRage TVShow Link:'.$tvrlink, white);
+	if($tvrlink_matches==0){ $r->err(' Cant find the tvshow link on tvrage, skipping!'); $tvrlink="http://dentoo.net";}
+
 	###################################
 	# Get poster URL from tv rage
+	my $upl_img="/home/tup/tuper4/cache/posters/default.jpg";
 	my $eh=$r->get($tvrlink);
 	return 0 if($eh==0);
 	my $match_posterid=qr/src='http:\/\/images.tvrage.com\/shows\/(.*?)'><\/div>/ms;
 	my $posterid_matches=$r->match('image id', $match_posterid);
-	if($posterid_matches==0){ $r->err(' Cant find image on tvrage, skipping!');}
+	if($posterid_matches==0){ $r->err(' Cant find image on tvrage, skipping!');}else{
 	my $posterid=@$posterid_matches[0];
-	$r->err('Posterid:'.$posterid, white);
-	if($posterid =~ m/layout/gi){$r->err(' Cant find tv show on tvrage, is the link correct? Aborting!'); return 0;}
+	#$r->err('Posterid:'.$posterid, white);
 	$posterid =~ s/^/http:\/\/images.tvrage.com\/shows\//g;
 	my $imgurl=$posterid;
 	$r->err('Image url:'.$imgurl, white);
 	$r->err('Downloading poster from TVRage', white);
 	
-	system "wget -P '/home/tup/tuper4/cache/posters' $imgurl";
-	sleep(4);
-	my $upl_img=$imgurl;
+	system "wget --restrict-file-names=nocontrol -P '/home/tup/tuper4/cache/posters' $imgurl";
+	sleep(2);
+	$upl_img=$imgurl;
 	$upl_img =~ s/^http:\/\/images.tvrage.com\/shows\/.*\///g;
 	$upl_img =~ s/^/\/home\/tup\/tuper4\/cache\/posters\//g;
-	$r->err('Poster downloaded temporarily to:'.$upl_img, green);
+	}
