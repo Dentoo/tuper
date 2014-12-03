@@ -1,3 +1,4 @@
+	my $bbcode="bajs";
 	###################################
 	# Place this directly under the
 	# Generating TV episode info from TVRAGE block
@@ -51,7 +52,7 @@
 	my $match_bbcode=qr/value="\[URL=http:\/\/image.geotorrents.com\/\](.*?)\[\/URL\]/ms;
 	my $bbcode_matches=$r->match('bbcode', $match_bbcode);
 	if($bbcode_matches==0){ $r->err(' Cant find bbcode, skipping!');}
-	my $bbcode=@$bbcode_matches[0];
+	$bbcode=@$bbcode_matches[0];
 	$r->err(" Bbcode: $bbcode");
 	
 	###################################
