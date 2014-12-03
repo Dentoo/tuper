@@ -28,7 +28,7 @@
 	my $upl_img="/home/tup/tuper4/cache/posters/default.jpg";
 	my $eh=$r->get($tvrlink);
 	return 0 if($eh==0);
-	my $match_posterid=qr/src='http:\/\/images.tvrage.com\/shows\/(.*?)'><\/div>/ms;
+	my $match_posterid=qr/src='http:\/\/images.tvrage.com\/shows\/(.*?)'>/ms;
 	my $posterid_matches=$r->match('image id', $match_posterid);
 	if($posterid_matches==0){ $r->err(' Cant find image on tvrage, skipping!');}else{
 	my $posterid=@$posterid_matches[0];
