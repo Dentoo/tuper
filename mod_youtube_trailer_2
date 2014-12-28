@@ -12,7 +12,7 @@ my $trailerid_matches=$r->match('trailer id', $match_trailerid);
 if($trailerid_matches==0){ $r->err(' Cant find trailer on youtube, aborting!'); return 0;}
 my $trailerid=@$trailerid_matches[0];
 $r->err(' Trailerid: '.$trailerid, white);
-my $yturl=$trailerid;
+$yturl=$trailerid;
 $yturl =~ s/^/https:\/\/www.youtube.com\/watch\?v=/gi;
 $r->err(' Youtube url:'.$yturl, yellow);
 $r->err('Planned stop (just testing)', "green"); # remove this line
