@@ -9,7 +9,7 @@
             $imdb="http://www.imdb.com/title/tt".$1."/"; 
             $r->err("Found IMDB link: ".$imdb, yellow); 
     }
-
+    my $bbcode="";
     if($imdb =~ m/imdb/i){
 
     #$descr_txt =~ s/\[img\].*?\[\/img\]//gi; ## To remove all other images from description except imdb poster remove the # in front of this line
@@ -47,7 +47,7 @@
     my $match_bbcode=qr/value="\[URL=http:\/\/image.geotorrents.com\/\](.*?)\[\/URL\]/ms;
     my $bbcode_matches=$r->match('bbcode', $match_bbcode);
     if($bbcode_matches==0){ $r->err('    Can not continue without bbcode, aborting!'); return 0;}
-    my $bbcode=@$bbcode_matches[0];
+    $bbcode=@$bbcode_matches[0];
     $r->err("    Bbcode:".$bbcode);    
 
     ###################################
